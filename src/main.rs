@@ -30,7 +30,7 @@ struct Args {
 
     /// Количество попыток подключения к серверам
     #[arg(long, short, default_value = "3")]
-    tries: i32,
+    tries: u32,
 
     /// Путь к файлу с серверами в белом списке
     #[arg(long, short, default_value = "./wl_servers.txt")]
@@ -39,6 +39,33 @@ struct Args {
     /// Путь к файлу с серверами вне белого списка
     #[arg(long, short, default_value = "./nwl_servers.txt")]
     not_whitelisted: String,
+}
+
+fn check_urls(urls: Vec<String>, tries: u32) -> bool {
+    let mut result: bool = true;
+    for url in urls {
+        for i in 0..tries {
+            print!("Попытка {}/{} пинга {url}...", i + 1, tries);
+            match check(url.clone()) {
+                Ok(k) => match k {
+                    Ok(rtt) => {
+                        println!(" успех, отклик={rtt}мс");
+                        break;
+                    }
+                    Err(e) => {
+                        println!();
+                        eprintln!("Ошибка: {e}");
+                    }
+                },
+                Err((msg, err)) => {
+                    println!();
+                    eprintln!("{msg}: {err}");
+                }
+            }
+            result = false;
+        }
+    }
+    result
 }
 
 fn main() {

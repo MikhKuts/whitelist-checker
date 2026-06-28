@@ -20,7 +20,7 @@
 
 Можно указать сервисы для пинга в файлах wl_servers.txt (для сервисов в белых списках) nwl_servers.txt (для сервисов не в белых списках)
 
-## Сборка из исходных файлов
+### Сборка из исходных файлов
 Для этого понадобятся 
 - Cargo
 - Компилятор для Rust
@@ -32,6 +32,12 @@ cd whitelist-checker
 cargo build --release
 ```
 Скомпилированный файл будет находиться по пути `whitelist-checker\target\release`
+
+### Установка через cargo
+
+```shell
+cargo install --git https://github.com/MikhKuts/whitelist-checker.git
+```
 
 ## Как работает
 1. Отправляет пинг на 4 сайта по 3 раза (можно настроить)
